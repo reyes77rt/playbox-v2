@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="PLAYBOX — Un juego de acción rítmica independiente donde cada beat es una decisión de combate." />
+  <meta name="theme-color" content="#050505" />
+  <title>PLAYBOX — El Último Desafío Rítmico</title>
+
+  <!-- Preconnects -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            void:     '#050505',
+            neon:     '#FF6B00',
+            electric: '#FF2233',
+            cyan:     '#00F5FF',
+            plasma:   '#FF00AA',
+            acid:     '#AAFF00',
+          },
+          fontFamily: {
+            display: ['"Orbitron"', 'sans-serif'],
+            body:    ['"Rajdhani"', 'sans-serif'],
+            mono:    ['"Share Tech Mono"', 'monospace'],
+          },
+          backgroundImage: {
+            'grid-cyber': "linear-gradient(rgba(0,245,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,245,255,0.04) 1px, transparent 1px)",
+          },
+          backgroundSize: { 'grid-cyber': '60px 60px' },
+          dropShadow: {
+            'neon':     ['0 0 8px #FF6B00','0 0 20px #FF6B00'],
+            'cyan':     ['0 0 8px #00F5FF','0 0 20px #00F5FF'],
+            'electric': ['0 0 8px #FF2233','0 0 20px #FF2233'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="bg-void text-white font-body overflow-x-hidden">
+
+  <!-- ── Custom Cursor ── -->
+  <div id="cursor-dot"  aria-hidden="true"></div>
+  <div id="cursor-ring" aria-hidden="true"></div>
+
+
+  <!-- ════════════════════════════════════════
+       NAVBAR
+  ════════════════════════════════════════ -->
+  <nav id="navbar" aria-label="Navegación principal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+
+        <a href="#hero" class="nav-logo" aria-label="PLAYBOX — inicio">
+          <div class="nav-logo__box">
+            <span class="font-display text-neon text-xs font-black">PB</span>
+          </div>
+          <span class="font-display text-white text-lg font-black tracking-widest">PLAY<span class="text-neon">BOX</span></span>
+        </a>
+
+        <ul class="hidden lg:flex items-center gap-6 font-mono text-xs tracking-widest" role="list">
+          <li><a href="#about"       class="nav-link">Juego</a></li>
+          <li><a href="#features"    class="nav-link">Características</a></li>
+          <li><a href="#gallery"     class="nav-link">Galería</a></li>
+          <li><a href="#leaderboard" class="nav-link">Ranking</a></li>
+          <li><a href="#minigame"    class="nav-link">Mini-Juego</a></li>
+          <li><a href="#news"        class="nav-link">Noticias</a></li>
+        </ul>
+
+        <a href="#download" class="btn-primary hidden sm:inline-flex items-center gap-2 px-5 py-2.5 text-xs">
+          <i class="fa-solid fa-download"></i> Descargar
+        </a>
+
+        <button id="menu-toggle" class="lg:hidden p-2 flex flex-col gap-1.5 z-50"
+                aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar hamburger-bar--short"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile panel -->
+    <div id="mobile-menu" class="mobile-panel lg:hidden" aria-hidden="true">
+      <ul class="flex flex-col px-6 py-6 gap-1" role="list">
+        <li><a href="#about"       class="mobile-nav-link">Juego</a></li>
+        <li><a href="#features"    class="mobile-nav-link">Características</a></li>
+        <li><a href="#gallery"     class="mobile-nav-link">Galería</a></li>
+        <li><a href="#leaderboard" class="mobile-nav-link">Ranking</a></li>
+        <li><a href="#minigame"    class="mobile-nav-link">Mini-Juego</a></li>
+        <li><a href="#news"        class="mobile-nav-link">Noticias</a></li>
+        <li class="pt-4 border-t border-white/5 mt-2">
+          <a href="#download" class="btn-primary block text-center py-3">
+            <i class="fa-solid fa-download mr-2"></i>Descargar PLAYBOX
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <!-- ════════════════════════════════════════
+       §1  HERO
+  ════════════════════════════════════════ -->
+  <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-16"
+           aria-label="Hero principal">
+
+    <!-- BG layers -->
+    <div class="absolute inset-0 bg-grid-cyber bg-grid-cyber z-0 opacity-50" aria-hidden="true"></div>
+    <div class="hero-gradient absolute inset-0 z-0" aria-hidden="true"></div>
+    <div class="scanline-overlay absolute inset-0 z-0 pointer-events-none" aria-hidden="true"></div>
+
+    <!-- Ambient orbs -->
+    <div class="ambient-orb" style="top:20%;left:10%;width:320px;height:320px;background:radial-gradient(circle,rgba(255,107,0,.12),transparent 70%)" aria-hidden="true"></div>
+    <div class="ambient-orb" style="bottom:25%;right:8%;width:400px;height:400px;background:radial-gradient(circle,rgba(0,245,255,.06),transparent 70%);animation-delay:-3s" aria-hidden="true"></div>
+    <div class="ambient-orb" style="top:60%;right:30%;width:200px;height:200px;background:radial-gradient(circle,rgba(255,34,51,.07),transparent 70%);animation-delay:-5s" aria-hidden="true"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center py-20">
+
+      <!-- ── Text side ── -->
+      <div class="text-center lg:text-left reveal-left">
+
+        <!-- Brand tag — Neo-Arcade -->
+        <div class="eyebrow-tag inline-flex items-center gap-2 mb-6">
+          <span class="eyebrow-dot"></span>
+          <span class="font-mono text-cyan text-xs tracking-[0.35em] uppercase">Neo-Arcade · Versión 2.5</span>
+        </div>
+
+        <h1 class="font-display font-black leading-[0.95] mb-4">
+          <span class="glitch-title block text-5xl sm:text-7xl lg:text-[5rem] xl:text-[5.8rem] text-white"
+                data-text="EL ÚLTIMO">EL ÚLTIMO</span>
+          <span class="glitch-title block text-5xl sm:text-7xl lg:text-[5rem] xl:text-[5.8rem] text-neon"
+                data-text="DESAFÍO" style="text-shadow:0 0 50px rgba(255,107,0,.4)">DESAFÍO</span>
+          <span class="glitch-title block text-5xl sm:text-7xl lg:text-[5rem] xl:text-[5.8rem] text-white"
+                data-text="RÍTMICO">RÍTMICO</span>
+        </h1>
+
+        <div class="flex items-center gap-4 my-6 justify-center lg:justify-start">
+          <div class="h-px bg-gradient-to-r from-neon to-transparent w-20 flex-shrink-0"></div>
+          <span class="font-mono text-gray-500 text-xs tracking-widest whitespace-nowrap">PLAYBOX v2.5</span>
+          <div class="h-px bg-gradient-to-l from-cyan to-transparent w-20 flex-shrink-0"></div>
+        </div>
+
+        <p class="text-gray-300 font-body text-base sm:text-lg max-w-lg mx-auto lg:mx-0 mb-8 leading-relaxed">
+          Juega como <span class="text-neon font-semibold">Thang</span>, ex-ingeniero de sonido que se rebela contra
+          el control corporativo usando el ritmo como arma. Un indie de acción donde cada beat importa.
+        </p>
+
+        <!-- Honest metrics -->
+        <div class="flex flex-wrap gap-3 justify-center lg:justify-start mb-8">
+          <div class="stat-badge">
+            <i class="fa-solid fa-star text-neon text-xs"></i>
+            <span class="font-mono text-xs text-white">4.8 / 5.0 en Steam</span>
+          </div>
+          <div class="stat-badge">
+            <i class="fa-solid fa-users text-cyan text-xs"></i>
+            <!-- JS will animate this number -->
+            <span class="font-mono text-xs text-white"><span id="hero-players">6,700</span> jugadores activos</span>
+          </div>
+          <div class="stat-badge">
+            <i class="fa-solid fa-trophy text-acid text-xs"></i>
+            <span class="font-mono text-xs text-white">Mejor Indie 2025 — IndieMX</span>
+          </div>
+        </div>
+
+        <!-- CTAs -->
+        <div id="download" class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+          <a href="#" class="btn-primary-xl group relative overflow-hidden">
+            <span class="relative z-10 flex items-center justify-center gap-3">
+              <i class="fa-solid fa-download"></i>
+              DESCARGAR GRATIS
+            </span>
+            <span class="btn-shimmer" aria-hidden="true"></span>
+          </a>
+          <a href="#about" class="btn-ghost flex items-center justify-center gap-3">
+            <i class="fa-solid fa-play text-cyan"></i>
+            VER GAMEPLAY
+          </a>
+        </div>
+
+        <!-- Platforms -->
+        <div class="flex flex-wrap gap-2 mt-6 justify-center lg:justify-start">
+          <span class="platform-badge"><i class="fa-brands fa-windows mr-1.5"></i>PC</span>
+          <span class="platform-badge"><i class="fa-brands fa-itch-io mr-1.5"></i>itch.io</span>
+          <span class="platform-badge"><i class="fa-solid fa-mobile-screen mr-1.5"></i>Android</span>
+        </div>
+      </div>
+
+      <!-- ── Image side ── -->
+      <div class="relative flex items-center justify-center reveal-right">
+        <!-- Decorative rings -->
+        <div class="spin-ring spin-ring--slow"  aria-hidden="true"></div>
+        <div class="spin-ring spin-ring--fast"  aria-hidden="true"></div>
+
+        <div class="hero-img-wrapper">
+          <div class="hero-img-glow" aria-hidden="true"></div>
+          <img
+            src="assets/img/hero-character.png"
+            alt="Thang, personaje principal de PLAYBOX, en pose de combate"
+            class="hero-img"
+            loading="eager"
+            onerror="this.src='https://placehold.co/520x620/050505/FF6B00?text=Thang+%E2%80%94+PLAYBOX+Hero'"
+          />
+          <span class="img-corner img-corner--tl" aria-hidden="true"></span>
+          <span class="img-corner img-corner--tr" aria-hidden="true"></span>
+          <span class="img-corner img-corner--bl" aria-hidden="true"></span>
+          <span class="img-corner img-corner--br" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll cue -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50" aria-hidden="true">
+      <span class="font-mono text-gray-500 text-xs tracking-widest uppercase">Scroll</span>
+      <div class="w-px h-8 bg-gradient-to-b from-neon to-transparent"></div>
+    </div>
+
+    <!-- Ticker band -->
+    <div class="ticker-band absolute bottom-0 left-0 right-0" aria-hidden="true">
+      <div class="ticker-track">
+        <span class="ticker-content font-mono text-neon text-xs tracking-widest">
+          ★ PLAYBOX v2.5 DISPONIBLE &nbsp;·&nbsp; NUEVO MODO DESAFÍO DIARIO &nbsp;·&nbsp; UPDATE 2.5 — SECTOR SUBTERRÁNEO ABIERTO &nbsp;·&nbsp; 12 SECTORES · 80+ PISTAS &nbsp;·&nbsp; TEMPORADA 3 EN CURSO &nbsp;·&nbsp; ACCESO GRATUITO ESTA SEMANA &nbsp;·&nbsp;
+          ★ PLAYBOX v2.5 DISPONIBLE &nbsp;·&nbsp; NUEVO MODO DESAFÍO DIARIO &nbsp;·&nbsp; UPDATE 2.5 — SECTOR SUBTERRÁNEO ABIERTO &nbsp;·&nbsp; 12 SECTORES · 80+ PISTAS &nbsp;·&nbsp; TEMPORADA 3 EN CURSO &nbsp;·&nbsp; ACCESO GRATUITO ESTA SEMANA &nbsp;·&nbsp;
+        </span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       §2  ACERCA DEL JUEGO
+  ════════════════════════════════════════ -->
+  <section id="about" class="relative py-24 sm:py-32 overflow-hidden" aria-labelledby="about-title">
+    <div class="absolute inset-0 bg-gradient-to-b from-void via-black/80 to-void z-0" aria-hidden="true"></div>
+    <div class="deco-vline deco-vline--left"  aria-hidden="true"></div>
+    <div class="deco-vline deco-vline--right" aria-hidden="true"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16 reveal-up">
+        <span class="section-eyebrow">Historia</span>
+        <h2 id="about-title" class="section-title">Acerca del <span class="text-neon">Juego</span></h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+        <!-- Story cards -->
+        <div class="space-y-5 reveal-left">
+
+          <div class="story-card story-card--neon">
+            <div class="story-accent" style="background:var(--neon)"></div>
+            <div>
+              <h3 class="story-title">2087: La Música es Ilegal</h3>
+              <p class="story-body">
+                La corporación <span class="text-electric font-semibold">NeoCorp</span> ha silenciado la ciudad. Controla
+                cada frecuencia de audio y penaliza el ritmo como acto de sedición.
+              </p>
+            </div>
+          </div>
+
+          <div class="story-card story-card--cyan">
+            <div class="story-accent" style="background:var(--cyan)"></div>
+            <div>
+              <h3 class="story-title">Thang se Levanta</h3>
+              <p class="story-body">
+                <span class="text-neon font-semibold">Thang</span> fue ingeniero de audio de NeoCorp hasta que lo
+                descartaron. Ahora usa su conocimiento del sistema para derrotarlo
+                infiltrando los 12 sectores corporativos — un beat a la vez.
+              </p>
+            </div>
+          </div>
+
+          <div class="story-card story-card--electric">
+            <div class="story-accent" style="background:var(--electric)"></div>
+            <div>
+              <h3 class="story-title">Combate que Escucha</h3>
+              <p class="story-body">
+                Los ataques sincronizados con el ritmo amplifican el daño. Los fallos
+                cuestan armadura. El entorno reacciona a la música — el mundo de PLAYBOX
+                está vivo y responde a cada decisión sonora.
+              </p>
+            </div>
+          </div>
+
+          <!-- Stats row -->
+          <div class="grid grid-cols-3 gap-3 pt-2">
+            <div class="stat-block">
+              <span class="stat-num text-neon">12</span>
+              <span class="stat-lbl">Sectores</span>
+            </div>
+            <div class="stat-block">
+              <span class="stat-num text-cyan">80+</span>
+              <span class="stat-lbl">Pistas</span>
+            </div>
+            <div class="stat-block">
+              <span class="stat-num text-electric">6.7K</span>
+              <span class="stat-lbl">Jugadores</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Video frame -->
+        <div class="reveal-right">
+          <div class="video-frame group">
+            <div class="video-frame__glow" aria-hidden="true"></div>
+            <div class="video-frame__inner aspect-video">
+              <!-- Corner HUD marks -->
+              <span class="vcorner vcorner--tl" aria-hidden="true"></span>
+              <span class="vcorner vcorner--tr" aria-hidden="true"></span>
+              <span class="vcorner vcorner--bl" aria-hidden="true"></span>
+              <span class="vcorner vcorner--br" aria-hidden="true"></span>
+
+              <!-- Replace src with real thumbnail when available -->
+              <img
+                src="assets/img/gameplay-trailer-thumb.jpg"
+                alt="Captura del gameplay de PLAYBOX: combate rítmico en Sector 7"
+                class="w-full h-full object-cover rounded-sm"
+                loading="lazy"
+                onerror="this.src='https://placehold.co/800x450/050505/00F5FF?text=Gameplay+Trailer+%E2%80%94+PLAYBOX'"
+              />
+
+              <div class="video-overlay">
+                <button class="play-btn" aria-label="Reproducir trailer de gameplay">
+                  <i class="fa-solid fa-play text-neon text-xl ml-1"></i>
+                </button>
+              </div>
+
+              <div class="scanline-thin absolute inset-0 pointer-events-none z-10" aria-hidden="true"></div>
+              <div class="absolute bottom-3 left-3 font-mono text-xs text-cyan/60 z-20">
+                <span class="text-neon">&gt;</span> gameplay_sector07_demo.mp4
+              </div>
+              <div class="absolute top-3 right-3 font-mono text-xs text-electric/80 z-20 animate-blink">● REC</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       §3  CARACTERÍSTICAS — Neo-Arcade Grid (3 cols glassmorphism)
+  ════════════════════════════════════════ -->
+  <section id="features" class="relative py-24 sm:py-32 overflow-hidden" aria-labelledby="features-title">
+    <div class="absolute inset-0 bg-grid-cyber bg-grid-cyber opacity-25 z-0" aria-hidden="true"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black via-void to-black z-0" aria-hidden="true"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center mb-16 reveal-up">
+        <span class="section-eyebrow">El Sistema</span>
+        <h2 id="features-title" class="section-title">Por qué <span class="text-neon">PLAYBOX</span> es diferente</h2>
+        <div class="section-divider"></div>
+        <p class="text-gray-400 font-body mt-5 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
+          Seis pilares de diseño que combinan ritmo, combate y narrativa de una forma que no habías visto antes.
+        </p>
+      </div>
+
+      <!-- ★ 3-column glassmorphism grid ★ -->
+      <div class="feat-grid-3col">
+
+        <!-- 1 · Ritmo como mecánica -->
+        <article class="feat-glass feat-glass--neon reveal-up" style="--anim-delay:.05s" aria-label="Ritmo como Mecánica">
+          <div class="feat-glass__border" aria-hidden="true"></div>
+          <div class="feat-glass__inner">
+            <div class="feat-glass__icon feat-glass__icon--neon">
+              <i data-lucide="music-4" class="w-6 h-6" aria-hidden="true"></i>
+            </div>
+            <span class="feat-glass__tag feat-glass__tag--neon">CORE</span>
+            <h3 class="feat-glass__title">Ritmo como Mecánica</h3>
+            <p class="feat-glass__desc">
+              El motor <strong class="text-neon font-semibold">BPM-Sync</strong> mide tus tiempos en tiempo real.
+              Golpear en el beat correcto multiplica el daño; fallar tiene consecuencias tangibles.
+            </p>
+            <div class="feat-glass__stat">
+              <span class="feat-glass__stat-num text-neon">×3</span>
+              <span class="feat-glass__stat-lbl">daño en combo perfecto</span>
+            </div>
+          </div>
+          <div class="feat-glass__bar feat-glass__bar--neon" aria-hidden="true"></div>
+        </article>
+
+        <!-- 2 · Combate Modular -->
+        <article class="feat-glass feat-glass--cyan reveal-up" style="--anim-delay:.12s" aria-label="Combate Modular">
+          <div class="feat-glass__border" aria-hidden="true"></div>
+          <div class="feat-glass__inner">
+            <div class="feat-glass__icon feat-glass__icon--cyan">
+              <i data-lucide="zap" class="w-6 h-6" aria-hidden="true"></i>
+            </div>
+            <span class="feat-glass__tag feat-glass__tag--cyan">COMBATE</span>
+            <h3 class="feat-glass__title">Combate Modular</h3>
+            <p class="feat-glass__desc">
+              Construye tu estilo desde cero: elige entre habilidades cuerpo a cuerpo, sonoras o de
+              entorno. Cada combinación produce un flujo de combate distinto.
+            </p>
+            <div class="feat-glass__stat">
+              <span class="feat-glass__stat-num text-cyan">40+</span>
+              <span class="feat-glass__stat-lbl">habilidades desbloqueables</span>
+            </div>
+          </div>
+          <div class="feat-glass__bar feat-glass__bar--cyan" aria-hidden="true"></div>
+        </article>
+
+        <!-- 3 · Mundo Reactivo -->
+        <article class="feat-glass feat-glass--electric reveal-up" style="--anim-delay:.19s" aria-label="Mundo Reactivo">
+          <div class="feat-glass__border" aria-hidden="true"></div>
+          <div class="feat-glass__inner">
+            <div class="feat-glass__icon feat-glass__icon--electric">
+              <i data-lucide="globe-2" class="w-6 h-6" aria-hidden="true"></i>
+            </div>
+            <span class="feat-glass__tag feat-glass__tag--electric">MUNDO</span>
+            <h3 class="feat-glass__title">Mundo Reactivo</h3>
+            <p class="feat-glass__desc">
+              Los 12 sectores de la ciudad responden a tu música. NPCs se alteran, estructuras
+              vibran y barreras caen cuando el volumen alcanza el umbral correcto.
+            </p>
+            <div class="feat-glass__stat">
+              <span class="feat-glass__stat-num text-electric">12</span>
+              <span class="feat-glass__stat-lbl">sectores vivos</span>
+            </div>
+          </div>
+          <div class="feat-glass__bar feat-glass__bar--electric" aria-hidden="true"></div>
+        </article>
+
+        <!-- 4 · Banda Sonora Generativa -->
+        <article class="feat-glass feat-glass--plasma reveal-up" style="--anim-delay:.26s" aria-label="Banda Sonora Generativa">
+          <div class="feat-glass__border" aria-hidden="true"></div>
+          <div class="feat-glass__inner">
+            <div class="feat-glass__icon feat-glass__icon--plasma">
+              <i data-lucide="radio" class="w-6 h-6" aria-hidden="true"></i>
+            </div>
+            <span class="feat-glass__tag feat-glass__tag--plasma">AUDIO</span>
+            <h3 class="feat-glass__title">Banda Sonora Generativa</h3>
+            <p class="feat-glass__desc">
+              Más de 80 pistas compuestas para el juego. El sistema mezcla capas en función de
+              tu posición, salud y estilo — sin dos partidas que suenen igual.
+            </p>
+            <div class="feat-glass__stat">
+              <span class="feat-glass__stat-num text-plasma">80+</span>
+              <span class="feat-glass__stat-lbl">pistas originales</span>
+            </div>
+          </div>
+          <div class="feat-glass__bar feat-glass__bar--plasma" aria-hidden="true"></div>
+        </article>
+
+        <!-- 5 · Clasificación Honesta -->
+        <article class="feat-glass feat-glass--acid reveal-up" style="--anim-delay:.33s" aria-label="Clasificación Honesta">
+          <div class="feat-glass__border" aria-hidden="true"></div>
+          <div class="feat-glass__inner">
+            <div class="feat-glass__icon feat-glass__icon--acid">
+              <i data-lucide="bar-chart-3" class="w-6 h-6" aria-hidden="true"></i>
+            </div>
+            <span class="feat-glass__tag feat-glass__tag--acid">PVP</span>
+            <h3 class="feat-glass__title">Clasificación Honesta</h3>
+            <p class="feat-glass__desc">
+              Compite contra <strong class="text-acid font-semibold">6,700 jugadores reales</strong>.
+              El ranking mide habilidad pura: sin pay-to-win, sin ventajas de pago.
+            </p>
+            <div class="feat-glass__stat">
+              <span class="feat-glass__stat-num text-acid">6,700</span>
+              <span class="feat-glass__stat-lbl">jugadores activos</span>
+            </div>
+          </div>
+          <div class="feat-glass__bar feat-glass__bar--acid" aria-hidden="true"></div>
+        </article>
+
+        <!-- 6 · Sin Microtransacciones -->
+        <article class="feat-glass feat-glass--neon reveal-up" style="--anim-delay:.40s" aria-label="Sin Microtransacciones">
+          <div class="feat-glass__border" aria-hidden="true"></div>
+          <div class="feat-glass__inner">
+            <div class="feat-glass__icon feat-glass__icon--neon">
+              <i data-lucide="shield-check" class="w-6 h-6" aria-hidden="true"></i>
+            </div>
+            <span class="feat-glass__tag feat-glass__tag--neon">ÉTICA</span>
+            <h3 class="feat-glass__title">Sin Microtransacciones</h3>
+            <p class="feat-glass__desc">
+              Pagas una vez y obtienes todo. Las actualizaciones futuras son gratuitas.
+              Los cosméticos se desbloquean jugando — no comprando.
+            </p>
+            <div class="feat-glass__stat">
+              <span class="feat-glass__stat-num text-neon">100%</span>
+              <span class="feat-glass__stat-lbl">contenido jugable</span>
+            </div>
+          </div>
+          <div class="feat-glass__bar feat-glass__bar--neon" aria-hidden="true"></div>
+        </article>
+
+      </div><!-- /feat-grid-3col -->
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       §4  GALERÍA
+  ════════════════════════════════════════ -->
+  <section id="gallery" class="relative py-24 sm:py-32 overflow-hidden" aria-labelledby="gallery-title">
+    <div class="absolute inset-0 bg-gradient-to-b from-void via-black to-void z-0" aria-hidden="true"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center mb-14 reveal-up">
+        <span class="section-eyebrow">Visual</span>
+        <h2 id="gallery-title" class="section-title">Galería de <span class="text-neon">Capturas</span></h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <!-- Filter tabs -->
+      <div class="flex flex-wrap gap-2 justify-center mb-10 reveal-up" role="group" aria-label="Filtros de galería">
+        <button class="gallery-filter active" data-filter="all">Todos</button>
+        <button class="gallery-filter" data-filter="gameplay">Gameplay</button>
+        <button class="gallery-filter" data-filter="characters">Personajes</button>
+        <button class="gallery-filter" data-filter="world">Mundo</button>
+      </div>
+
+      <!-- Masonry-style grid -->
+      <div class="gallery-grid" id="gallery-grid">
+
+        <!-- Large item -->
+        <div class="gallery-item gallery-item--tall reveal-up" data-category="gameplay">
+          <div class="gallery-frame">
+            <img src="assets/img/gameplay-1.jpg" alt="Boss Fight en Sector 7 — PLAYBOX" class="gallery-img" loading="lazy"
+                 onerror="this.src='https://placehold.co/600x720/0A0A0A/FF6B00?text=Boss+Fight+Sector+7'" />
+            <div class="gallery-overlay">
+              <i class="fa-solid fa-expand text-white text-xl mb-1"></i>
+              <span>Boss Fight — Sector 7</span>
+            </div>
+            <span class="gallery-label">GAMEPLAY</span>
+          </div>
+        </div>
+
+        <div class="gallery-item reveal-up" data-category="characters" style="animation-delay:.08s">
+          <div class="gallery-frame">
+            <img src="assets/img/character-thang.jpg" alt="Arte conceptual de Thang" class="gallery-img" loading="lazy"
+                 onerror="this.src='https://placehold.co/400x400/050505/00F5FF?text=Thang+%E2%80%94+Personaje'" />
+            <div class="gallery-overlay">
+              <i class="fa-solid fa-expand text-white text-xl mb-1"></i>
+              <span>Thang — Diseño de personaje</span>
+            </div>
+            <span class="gallery-label">PERSONAJE</span>
+          </div>
+        </div>
+
+        <div class="gallery-item reveal-up" data-category="world" style="animation-delay:.14s">
+          <div class="gallery-frame">
+            <img src="assets/img/world-sector3.jpg" alt="Sector 3 de noche — ciudad neon" class="gallery-img" loading="lazy"
+                 onerror="this.src='https://placehold.co/400x400/050505/FF2233?text=Neon+City+Sector+3'" />
+            <div class="gallery-overlay">
+              <i class="fa-solid fa-expand text-white text-xl mb-1"></i>
+              <span>Neon City — Sector 3</span>
+            </div>
+            <span class="gallery-label">MUNDO</span>
+          </div>
+        </div>
+
+        <div class="gallery-item gallery-item--wide reveal-up" data-category="gameplay" style="animation-delay:.20s">
+          <div class="gallery-frame">
+            <img src="assets/img/gameplay-2.jpg" alt="Sistema de combos en acción" class="gallery-img" loading="lazy"
+                 onerror="this.src='https://placehold.co/700x380/050505/AAFF00?text=Sistema+de+Combos'" />
+            <div class="gallery-overlay">
+              <i class="fa-solid fa-expand text-white text-xl mb-1"></i>
+              <span>Sistema de combos — Nivel 4</span>
+            </div>
+            <span class="gallery-label">GAMEPLAY</span>
+          </div>
+        </div>
+
+        <div class="gallery-item gallery-item--wide reveal-up" data-category="gameplay" style="animation-delay:.26s">
+          <div class="gallery-frame">
+            <img src="assets/img/gameplay-3.jpg" alt="Modo multijugador en arena" class="gallery-img" loading="lazy"
+                 onerror="this.src='https://placehold.co/700x380/050505/FF00AA?text=Arena+Multijugador'" />
+            <div class="gallery-overlay">
+              <i class="fa-solid fa-expand text-white text-xl mb-1"></i>
+              <span>Arena — Modo cooperativo</span>
+            </div>
+            <span class="gallery-label">MULTIJUGADOR</span>
+          </div>
+        </div>
+
+        <div class="gallery-item reveal-up" data-category="characters" style="animation-delay:.32s">
+          <div class="gallery-frame">
+            <img src="assets/img/villain-neocorp.jpg" alt="Director Vex — jefe final de NeoCorp" class="gallery-img" loading="lazy"
+                 onerror="this.src='https://placehold.co/400x400/050505/FF6B00?text=Director+Vex+%E2%80%94+NeoCorp'" />
+            <div class="gallery-overlay">
+              <i class="fa-solid fa-expand text-white text-xl mb-1"></i>
+              <span>Director Vex — Jefe final</span>
+            </div>
+            <span class="gallery-label">VILLANO</span>
+          </div>
+        </div>
+      </div><!-- /gallery-grid -->
+
+      <div class="text-center mt-10 reveal-up">
+        <a href="#" class="btn-ghost inline-flex items-center gap-3 px-8 py-3 text-sm">
+          <i class="fa-solid fa-images text-cyan"></i>
+          Ver galería completa
+        </a>
+      </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" role="dialog" aria-modal="true" aria-label="Imagen ampliada">
+      <button id="lightbox-close" aria-label="Cerrar">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      <img id="lightbox-img" src="" alt="" />
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       §5  LEADERBOARD
+  ════════════════════════════════════════ -->
+  <section id="leaderboard" class="relative py-24 sm:py-32 overflow-hidden" aria-labelledby="lb-title">
+    <div class="absolute inset-0 bg-grid-cyber bg-grid-cyber opacity-20 z-0" aria-hidden="true"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black via-void to-black z-0" aria-hidden="true"></div>
+    <div class="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-transparent via-neon/60 to-transparent" aria-hidden="true"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center mb-16 reveal-up">
+        <span class="section-eyebrow">Competición</span>
+        <h2 id="lb-title" class="section-title">Tabla de <span class="text-neon">Clasificación</span></h2>
+        <div class="section-divider"></div>
+        <p class="text-gray-400 font-body mt-4 leading-relaxed">
+          Ranking en tiempo real entre los <strong class="text-white">6,700 jugadores activos</strong> de la comunidad.
+        </p>
+      </div>
+
+      <div class="lb-card reveal-up">
+
+        <!-- Header -->
+        <div class="lb-header">
+          <div class="flex items-center gap-3">
+            <i class="fa-solid fa-ranking-star text-neon text-xl"></i>
+            <div>
+              <h3 class="font-display text-white font-bold">RANKING GLOBAL</h3>
+              <p class="font-mono text-gray-500 text-xs">TEMPORADA 3 — SEMANA 4</p>
+            </div>
+          </div>
+          <div class="lb-tabs" role="tablist" aria-label="Filtros de clasificación">
+            <button class="lb-tab lb-tab--active" data-tab="global"   role="tab" aria-selected="true">Global</button>
+            <button class="lb-tab"                data-tab="regional" role="tab" aria-selected="false">Regional</button>
+            <button class="lb-tab"                data-tab="amigos"   role="tab" aria-selected="false">Amigos</button>
+          </div>
+        </div>
+
+        <!-- Top-3 podium (JS populated) -->
+        <div id="lb-podium" class="lb-podium" role="list" aria-label="Top 3 jugadores"></div>
+
+        <!-- Table (JS populated) -->
+        <div class="lb-table-wrap" role="region" aria-label="Tabla de clasificación" tabindex="0">
+          <table class="lb-table" id="lb-table">
+            <thead>
+              <tr class="lb-thead-row">
+                <th class="lb-th lb-th--center" scope="col">#</th>
+                <th class="lb-th" scope="col">Jugador</th>
+                <th class="lb-th lb-th--right  lb-hide-xs"   scope="col">Puntos</th>
+                <th class="lb-th lb-th--center lb-hide-sm"   scope="col">Nivel</th>
+                <th class="lb-th lb-th--center"              scope="col">Racha</th>
+                <th class="lb-th lb-th--right"               scope="col">Rango</th>
+              </tr>
+            </thead>
+            <tbody id="lb-body"></tbody>
+          </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="lb-footer">
+          <span class="font-mono text-gray-500 text-xs">
+            <span class="text-neon animate-blink">●</span>
+            Actualizado hace 2 min · <span class="text-white font-semibold">6,700</span> jugadores activos
+          </span>
+          <a href="#" class="btn-ghost text-xs px-4 py-2 inline-flex items-center gap-2">
+            Ver tabla completa <i class="fa-solid fa-arrow-right text-cyan text-xs"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       §6  MINI-JUEGO
+  ════════════════════════════════════════ -->
+  <section id="minigame" class="relative py-24 sm:py-32 overflow-hidden" aria-labelledby="game-title">
+    <div class="absolute inset-0 bg-gradient-to-b from-black via-void to-black z-0" aria-hidden="true"></div>
+    <div class="absolute inset-0 bg-grid-cyber bg-grid-cyber opacity-35 z-0" aria-hidden="true"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center mb-12 reveal-up">
+        <span class="section-eyebrow">Arcade</span>
+        <h2 id="game-title" class="section-title">Mini-Juego: <span class="text-neon">Sobreviviente Pixel</span></h2>
+        <div class="section-divider"></div>
+        <p class="text-gray-400 font-body mt-4 text-sm leading-relaxed">
+          Un teaser jugable. Esquiva los obstáculos al ritmo del beat y sobrevive el mayor tiempo posible.
+        </p>
+      </div>
+
+      <div class="game-card reveal-up">
+
+        <!-- HUD -->
+        <div class="game-hud" aria-live="polite" aria-atomic="true">
+          <div class="flex gap-6 flex-wrap items-center">
+            <div class="hud-stat">
+              <span class="hud-label">SCORE</span>
+              <span class="hud-value text-neon" id="game-score">000000</span>
+            </div>
+            <div class="hud-stat">
+              <span class="hud-label">VIDAS</span>
+              <div class="flex gap-1 items-center" id="game-lives" aria-label="Vidas restantes">
+                <i class="fa-solid fa-heart text-electric text-sm"></i>
+                <i class="fa-solid fa-heart text-electric text-sm"></i>
+                <i class="fa-solid fa-heart text-electric text-sm"></i>
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-6 flex-wrap items-center justify-end">
+            <div class="hud-stat text-right">
+              <span class="hud-label">NIVEL</span>
+              <span class="hud-value text-cyan" id="game-level">01</span>
+            </div>
+            <div class="hud-stat text-right">
+              <span class="hud-label">HI-SCORE</span>
+              <span class="hud-value text-acid" id="game-hiscore">000000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Canvas wrapper -->
+        <div class="canvas-wrapper">
+          <canvas id="game-canvas" width="800" height="340"
+                  aria-label="Área del mini-juego Sobreviviente Pixel"></canvas>
+
+          <!-- Start screen -->
+          <div id="game-overlay" class="game-overlay">
+            <div class="game-overlay__inner">
+              <p class="font-display text-4xl sm:text-5xl font-black text-neon mb-1"
+                 style="text-shadow:0 0 30px rgba(255,107,0,.5)">
+                PLAY<span class="text-white">BOX</span>
+              </p>
+              <p class="font-mono text-cyan text-xs mb-1 tracking-widest">SOBREVIVIENTE PIXEL v1.0</p>
+              <p class="font-mono text-gray-500 text-xs mb-7 px-6 text-center leading-loose">
+                ← → para moverte &nbsp;·&nbsp; ESPACIO para saltar &nbsp;·&nbsp; P para pausar
+              </p>
+              <button id="game-start-btn" class="btn-primary-xl px-10 py-4">
+                <i class="fa-solid fa-play mr-2"></i>INICIAR JUEGO
+              </button>
+            </div>
+          </div>
+
+          <!-- Game over screen -->
+          <div id="game-over-overlay" class="game-overlay hidden">
+            <div class="game-overlay__inner">
+              <p class="font-display text-4xl font-black text-electric mb-2">GAME OVER</p>
+              <p class="font-mono text-sm text-gray-400 mb-1">
+                Puntuación: <span class="text-neon font-bold" id="final-score">0</span>
+              </p>
+              <p class="font-mono text-xs text-gray-600 mb-7">
+                Hi-Score: <span class="text-acid" id="final-hiscore">0</span>
+              </p>
+              <button id="game-restart-btn" class="btn-primary-xl px-10 py-4">
+                <i class="fa-solid fa-rotate-right mr-2"></i>REINTENTAR
+              </button>
+            </div>
+          </div>
+
+          <!-- Pause screen -->
+          <div id="game-pause-overlay" class="game-overlay hidden">
+            <div class="game-overlay__inner">
+              <p class="font-display text-4xl font-black text-cyan mb-6">PAUSA</p>
+              <button id="game-resume-btn" class="btn-primary px-8 py-3">
+                <i class="fa-solid fa-play mr-2"></i>CONTINUAR
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls legend -->
+        <div class="controls-grid">
+          <div class="ctrl-key"><span class="ctrl-icon">← / A</span><span>Izquierda</span></div>
+          <div class="ctrl-key"><span class="ctrl-icon">→ / D</span><span>Derecha</span></div>
+          <div class="ctrl-key"><span class="ctrl-icon">SPACE</span><span>Saltar</span></div>
+          <div class="ctrl-key"><span class="ctrl-icon">P</span><span>Pausa</span></div>
+        </div>
+
+        <!-- Mobile d-pad -->
+        <div class="mobile-dpad sm:hidden" aria-label="Controles táctiles">
+          <button id="btn-left"  class="dpad-btn" aria-label="Mover izquierda">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <button id="btn-jump"  class="dpad-btn dpad-btn--jump" aria-label="Saltar">
+            <i class="fa-solid fa-chevron-up"></i>
+          </button>
+          <button id="btn-right" class="dpad-btn" aria-label="Mover derecha">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       §7  NOTICIAS & FAQ
+  ════════════════════════════════════════ -->
+  <section id="news" class="relative py-24 sm:py-32 overflow-hidden" aria-labelledby="news-title">
+    <div class="absolute inset-0 bg-gradient-to-b from-void via-black to-void z-0" aria-hidden="true"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16 reveal-up">
+        <span class="section-eyebrow">Updates</span>
+        <h2 id="news-title" class="section-title">Noticias & <span class="text-cyan">FAQ</span></h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16">
+
+        <!-- News column -->
+        <div class="reveal-left">
+          <h3 class="col-heading">
+            <i class="fa-solid fa-newspaper text-neon mr-2"></i>
+            Últimas actualizaciones
+          </h3>
+
+          <div class="space-y-4">
+
+            <article class="news-card group">
+              <img src="assets/img/news-update25.jpg" alt="Update v2.5" class="news-thumb" loading="lazy"
+                   onerror="this.src='https://placehold.co/80x80/111/FF6B00?text=v2.5'" />
+              <div class="news-body">
+                <div class="news-meta">
+                  <span class="news-tag news-tag--neon">PATCH</span>
+                  <time class="font-mono text-gray-500 text-xs" datetime="2026-05-03">03 MAY 2026</time>
+                </div>
+                <h4 class="news-title group-hover:text-neon">Update 2.5 — Sector Subterráneo abierto</h4>
+                <p class="news-desc">
+                  Nuevo área explorable con 14 misiones secundarias, 6 pistas inéditas y correcciones
+                  de rendimiento en dispositivos de gama media.
+                </p>
+              </div>
+            </article>
+
+            <article class="news-card group">
+              <img src="assets/img/news-season3.jpg" alt="Temporada 3" class="news-thumb" loading="lazy"
+                   onerror="this.src='https://placehold.co/80x80/111/00F5FF?text=S3'" />
+              <div class="news-body">
+                <div class="news-meta">
+                  <span class="news-tag news-tag--cyan">TEMPORADA</span>
+                  <time class="font-mono text-gray-500 text-xs" datetime="2026-04-28">28 ABR 2026</time>
+                </div>
+                <h4 class="news-title group-hover:text-cyan">Temporada 3: La Frecuencia Prohibida</h4>
+                <p class="news-desc">
+                  Tres skins exclusivos, nuevas recompensas de ranking y el modo Élite desbloqueado
+                  para los 50 mejores jugadores de la temporada anterior.
+                </p>
+              </div>
+            </article>
+
+            <article class="news-card group">
+              <img src="assets/img/news-dlc.jpg" alt="DLC: Resonancia Oscura" class="news-thumb" loading="lazy"
+                   onerror="this.src='https://placehold.co/80x80/111/FF2233?text=DLC'" />
+              <div class="news-body">
+                <div class="news-meta">
+                  <span class="news-tag news-tag--electric">DLC</span>
+                  <time class="font-mono text-gray-500 text-xs" datetime="2026-04-14">14 ABR 2026</time>
+                </div>
+                <h4 class="news-title group-hover:text-electric">DLC: Resonancia Oscura — Disponible</h4>
+                <p class="news-desc">
+                  Campaña adicional de ~4 horas, personaje Nyx con moveset propio y el modo
+                  sin regeneración de vida para quienes buscan un reto real.
+                </p>
+              </div>
+            </article>
+
+            <a href="#" class="btn-ghost inline-flex items-center gap-2 px-4 py-2 text-xs mt-2">
+              Ver todas las noticias <i class="fa-solid fa-arrow-right text-cyan text-xs"></i>
+            </a>
+          </div>
+        </div><!-- /news -->
+
+        <!-- FAQ column -->
+        <div class="reveal-right">
+          <h3 class="col-heading">
+            <i class="fa-solid fa-circle-question text-cyan mr-2"></i>
+            Preguntas frecuentes
+          </h3>
+
+          <div id="faq-accordion" class="space-y-2">
+
+            <div class="faq-item">
+              <button class="faq-trigger" aria-expanded="false">
+                <span>¿Cuáles son los requisitos mínimos en PC?</span>
+                <i class="fa-solid fa-chevron-down faq-icon text-neon"></i>
+              </button>
+              <div class="faq-panel" role="region">
+                <div class="faq-content">
+                  <p class="faq-req-label">Mínimos</p>
+                  <ul class="faq-req-list">
+                    <li><span class="req-key">CPU</span> Intel i5-8400 o AMD Ryzen 5 2600</li>
+                    <li><span class="req-key">RAM</span> 8 GB</li>
+                    <li><span class="req-key">GPU</span> NVIDIA GTX 1060 / AMD RX 580</li>
+                    <li><span class="req-key">Disco</span> 12 GB en SSD</li>
+                    <li><span class="req-key">SO</span> Windows 10 64-bit</li>
+                  </ul>
+                  <p class="faq-req-label mt-4">Recomendados</p>
+                  <ul class="faq-req-list">
+                    <li><span class="req-key">CPU</span> Intel i7-10700K o AMD Ryzen 7 5800X</li>
+                    <li><span class="req-key">RAM</span> 16 GB</li>
+                    <li><span class="req-key">GPU</span> NVIDIA RTX 3070 / AMD RX 6700 XT</li>
+                    <li><span class="req-key">Disco</span> 12 GB en NVMe</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-trigger" aria-expanded="false">
+                <span>¿El juego tiene modo cooperativo?</span>
+                <i class="fa-solid fa-chevron-down faq-icon text-neon"></i>
+              </button>
+              <div class="faq-panel" role="region">
+                <div class="faq-content">
+                  <p>
+                    Sí. PLAYBOX incluye cooperativo local para 2 jugadores en pantalla dividida
+                    y cooperativo online hasta 4 jugadores en toda la campaña principal.
+                    El modo arena soporta hasta 8 jugadores en PvP asíncrono.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-trigger" aria-expanded="false">
+                <span>¿Hay microtransacciones o pase de batalla?</span>
+                <i class="fa-solid fa-chevron-down faq-icon text-neon"></i>
+              </button>
+              <div class="faq-panel" role="region">
+                <div class="faq-content">
+                  <p>
+                    No. PLAYBOX es compra única — sin suscripciones, sin pase de batalla,
+                    sin cajas de botín. Los cosméticos se obtienen jugando. Los DLC son
+                    contenido narrativo real, no recortes del juego base.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-trigger" aria-expanded="false">
+                <span>¿Cuándo llega el soporte para VR?</span>
+                <i class="fa-solid fa-chevron-down faq-icon text-neon"></i>
+              </button>
+              <div class="faq-panel" role="region">
+                <div class="faq-content">
+                  <p>
+                    El soporte para Meta Quest 3 y PSVR2 está en desarrollo activo y está
+                    planeado para la Update 3.0, estimada en Q4 2026. Los patrocinadores
+                    en itch.io tienen acceso al canal de beta.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-trigger" aria-expanded="false">
+                <span>¿Cómo reporto errores o doy feedback?</span>
+                <i class="fa-solid fa-chevron-down faq-icon text-neon"></i>
+              </button>
+              <div class="faq-panel" role="region">
+                <div class="faq-content">
+                  <p>
+                    Usa el panel in-game con <kbd class="faq-kbd">F9</kbd> en PC para capturar
+                    el estado del juego automáticamente. También puedes abrir un issue en nuestro
+                    repositorio público de GitHub o escribirnos en Discord.
+                    Los mejores reportes reciben créditos en el juego.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /faq-accordion -->
+        </div><!-- /faq col -->
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       §8  FOOTER
+  ════════════════════════════════════════ -->
+  <footer class="relative overflow-hidden border-t border-white/5" role="contentinfo">
+    <div class="absolute inset-0 bg-black z-0" aria-hidden="true"></div>
+    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neon to-transparent" aria-hidden="true"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Newsletter -->
+      <div class="py-12 sm:py-16 border-b border-white/5">
+        <div class="newsletter-card glass-card p-6 sm:p-10 reveal-up">
+          <div class="grid sm:grid-cols-2 gap-8 items-center">
+            <div>
+              <h3 class="font-display text-xl sm:text-2xl font-black text-white mb-2">
+                Mantente en la <span class="text-neon">Frecuencia</span>
+              </h3>
+              <p class="font-body text-gray-400 text-sm leading-relaxed">
+                Updates del juego, acceso anticipado a betas y noticias de la comunidad.
+                Sin spam — un correo por semana como máximo.
+              </p>
+            </div>
+            <div>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <input
+                  type="email"
+                  id="newsletter-input"
+                  placeholder="tu@correo.com"
+                  class="newsletter-input flex-1"
+                  aria-label="Correo para newsletter"
+                />
+                <button id="newsletter-btn" class="btn-primary px-5 py-3 text-xs whitespace-nowrap">
+                  <i class="fa-solid fa-paper-plane mr-2"></i>Suscribir
+                </button>
+              </div>
+              <p class="font-mono text-gray-600 text-xs mt-2.5 leading-relaxed">
+                Sin spam. Cancela cuando quieras.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Links -->
+      <div class="py-12 grid grid-cols-2 sm:grid-cols-4 gap-8">
+        <div class="col-span-2 sm:col-span-1">
+          <div class="nav-logo mb-4">
+            <div class="nav-logo__box"><span class="font-display text-neon text-xs font-black">PB</span></div>
+            <span class="font-display text-white text-lg font-black tracking-widest">PLAY<span class="text-neon">BOX</span></span>
+          </div>
+          <p class="font-body text-gray-500 text-sm leading-relaxed mb-5">
+            Un juego indie de acción rítmica. Donde cada beat es una decisión.
+          </p>
+          <div class="flex gap-2 flex-wrap">
+            <a href="#" class="social-icon" aria-label="Twitter/X"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#" class="social-icon" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+            <a href="#" class="social-icon" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#" class="social-icon" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="#" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Juego</h4>
+          <ul class="space-y-2" role="list">
+            <li><a href="#about"    class="footer-link">Historia</a></li>
+            <li><a href="#features" class="footer-link">Características</a></li>
+            <li><a href="#gallery"  class="footer-link">Galería</a></li>
+            <li><a href="#download" class="footer-link">Descargar</a></li>
+            <li><a href="#"         class="footer-link">DLC</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Comunidad</h4>
+          <ul class="space-y-2" role="list">
+            <li><a href="#leaderboard" class="footer-link">Ranking</a></li>
+            <li><a href="#"            class="footer-link">Discord</a></li>
+            <li><a href="#"            class="footer-link">Foro oficial</a></li>
+            <li><a href="#"            class="footer-link">Esports</a></li>
+            <li><a href="#news"        class="footer-link">Noticias</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Soporte</h4>
+          <ul class="space-y-2" role="list">
+            <li><a href="#news" class="footer-link">FAQ</a></li>
+            <li><a href="#"     class="footer-link">Centro de ayuda</a></li>
+            <li><a href="#"     class="footer-link">Reportar bug</a></li>
+            <li><a href="#"     class="footer-link">Privacidad</a></li>
+            <li><a href="#"     class="footer-link">Términos</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom -->
+      <div class="py-5 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="font-mono text-gray-600 text-xs text-center sm:text-left">
+          © 2026 PLAYBOX Studio · Todos los derechos reservados ·
+          <span class="text-neon">Hecho con ♥ en México</span>
+        </p>
+        <div class="flex items-center gap-4">
+          <img src="https://placehold.co/40x20/111/555?text=ESRB" alt="ESRB Teen" class="h-5 opacity-40 rounded" loading="lazy" />
+          <img src="https://placehold.co/40x20/111/555?text=PEGI" alt="PEGI 12"   class="h-5 opacity-40 rounded" loading="lazy" />
+          <span class="font-mono text-gray-700 text-xs">v2.5.1</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to top -->
+  <button id="back-to-top" aria-label="Volver arriba">
+    <i class="fa-solid fa-arrow-up text-sm"></i>
+  </button>
+
+  <!-- JS (initialises Lucide + all interactivity) -->
+</html>
